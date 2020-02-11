@@ -4,8 +4,67 @@
   <title>Our simple HTTP server</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
-  <script type="text/babel">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js">
+  const handleResponse = (xhr) => {
+			 //grab the content section
+      const content = document.querySelector("#content");
+      
+      ///parse the response text into a JSON object
+      const obj = JSON.parse(xhr.response);
+      console.log(`status code: ${xhr.status}`);
+      console.log(`xhr.response: ${xhr.response}`);
+      
+      //check the xhr status code and handle accordingly
+      switch(xhr.status) {
+        case 200: //success
+          content.innerHTML = `<b>Success - 200</b> - Message: ${obj.message}`;
+          break;
+        case 400: //bad request 
+          content.innerHTML = `<b>Bad Request -400</b> - Message: ${obj.message}`;
+          break;
+        case 401: //unauthorized 
+          content.innerHTML = `<b>Unauthorized - 401</b> - Message: ${obj.message}`;
+          break;
+        case 403: //forbidden 
+          content.innerHTML = `<b>Forbidden - 403</b> - Message: ${obj.message}`;
+          break;
+        case 500: //internal 
+          content.innerHTML = `<b>Internal - 500</b> - Message: ${obj.message}`;
+          break;
+        case 501: //internal 
+          content.innerHTML = `<b>Not Implemented - 501</b> - Message: ${obj.message}`;
+          break;
+        case 404: //not found (requested resource does not exist)
+          content.innerHTML = `<b>Resource Not Found - 404</b> - Message: ${obj.message}`;
+          break;
+        default: //default other errors we are not handling in this example
+          content.innerHTML = `<b>Resouce Not Found - 404</b> - Message: ${obj.message}`;
+          break;
+      }
+    };
+    
+    const sendAjax = (url, acceptedType) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.setRequestHeader ("Accept", acceptedType);
+
+      console.log("successful");
+      xhr.onload = () => handleResponse(xhr);
+      
+      xhr.send();
+    };
+
+    const init = () => {
+      const send = document.querySelector('#send');
+      const pageContent = document.querySelector("#page");
+      const jsonOrXML = document.querySelector("#type");
+
+      send.addEventListener('click', sendAjax(pageContent.value, jsonOrXML.value));
+      //badRequest.onclick = () => sendAjax('/badRequest?valid=yeah');
+      //notFound.onclick = () => sendAjax('/notFoundURL');
+    };
+
+    window.onload = init;
 
   </script>
 </head>
