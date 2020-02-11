@@ -56,10 +56,14 @@
 
     const init = () => {
       const send = document.querySelector('#send');
-      const pageContent = document.querySelector("#page");
-      const jsonOrXML = document.querySelector("#type");
+      let pageContent = document.querySelector("#page");
+      let jsonOrXML = document.querySelector("#type");
 
-      send.addEventListener('click', sendAjax(pageContent.value, jsonOrXML.value));
+      let pageVal = pageContent.value;
+      let typeVal = jsonOrXML.value;
+      send.addEventListener('click', (pageVal, typeVal) => {
+        sendAjax(pageVal, typeVal);
+      });
       //badRequest.onclick = () => sendAjax('/badRequest?valid=yeah');
       //notFound.onclick = () => sendAjax('/notFoundURL');
     };
