@@ -4,8 +4,8 @@
   <title>Our simple HTTP server</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js">
-  const handleResponse = (xhr) => {
+  <script>
+    const handleResponse = (xhr) => {
 			 //grab the content section
       const content = document.querySelector("#content");
       
@@ -61,7 +61,7 @@
 
       let pageVal = pageContent.value;
       let typeVal = jsonOrXML.value;
-      send.addEventListener('click', (pageVal, typeVal) => {
+      send.addEventListener('click', () => {
         sendAjax(pageVal, typeVal);
       });
       //badRequest.onclick = () => sendAjax('/badRequest?valid=yeah');
